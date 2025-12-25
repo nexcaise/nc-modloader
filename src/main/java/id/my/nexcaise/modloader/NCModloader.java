@@ -9,16 +9,18 @@ import org.json.*;
 public class NCModloader {
     private static ModManager lm;
 
-    public static void onLoad(Context ctx, boolean ncme) {
+    public static void onLoad(Context ctx) {
         lm = ModManager.get(ctx);
-        if(!ncme) {
+        /*if(!ncme) {
             Logger.get().i("Nexcaise ModLoader Is Disabled!, ncmodloader won't work!");
             return;
-        }
-        clearCache(ctx);
-        ClearCustomPacks(ctx);
-        copyAllLibs(ctx);
-        loadAllLibs(ctx);
+        }*/
+        
+          clearCache(ctx);
+          ClearCustomPacks(ctx);
+          copyAllLibs(ctx);
+          loadAllLibs(ctx);
+        
     }
 
     public static void clearCache(Context ctx) {
