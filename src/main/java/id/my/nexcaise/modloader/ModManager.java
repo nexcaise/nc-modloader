@@ -241,17 +241,25 @@ private void copyCustomPack(File jarFile) throws IOException {
         packsArray = new JSONArray();
     }
 
-    // Tambahkan entry baru ke atas (hindari duplikat pack_id)
+    try {
     JSONArray newArray = new JSONArray();
+
     JSONObject newPack = new JSONObject();
     newPack.put("pack_id", uuid1);
-    newPack.put("version", new JSONArray("[1,0,0]"));
+
+    JSONArray version = new JSONArray();
+    version.put(1);
+    version.put(0);
+    version.put(0);
+
+    newPack.put("version", version);
     newPack.put("#mod", cleanName);
+
     newArray.put(newPack);
 
     for (int i = 0; i < packsArray.length(); i++) {
         JSONObject existing = packsArray.getJSONObject(i);
-        if (!existing.optString("pack_id").equals(uuid1)) {
+        if (!uuid1.equals(existing.optString("pack_id"))) {
             newArray.put(existing);
         }
     }
@@ -259,6 +267,11 @@ private void copyCustomPack(File jarFile) throws IOException {
     try (FileWriter writer = new FileWriter(globalPacksFile)) {
         writer.write(newArray.toString(2));
     }
+
+} catch (JSONException e) {
+    Logger.get().error("Failed to update global_resource_packs.json", e);
+    return;
+}
 
     Logger.get().i("✅ Global resource pack registered: " + uuid1);
     Logger.get().i("✅ Custom pack path: " + resourceDst.getAbsolutePath());
@@ -315,4 +328,4 @@ private String readFully(InputStream in) throws IOException {
     return baos.toString("UTF-8");  
 }
 
-                                            }
+}
