@@ -1,0 +1,22 @@
+plugins {
+    id 'java'
+}
+
+group = 'id.my.nexcaise'
+version = '0.0.1'
+
+repositories {
+    google()
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.json:json:20240303'
+    compileOnly 'com.google.android:android:4.1.1.4'
+    implementation 'org.jetbrains:annotations:24.1.0'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
