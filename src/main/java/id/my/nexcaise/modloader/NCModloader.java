@@ -9,10 +9,10 @@ import org.levimc.launcher.settings.FeatureSettings;
 public class NCModloader {
     private static ModManager lm;
 
-    public static void onLoad(Context ctx) {
+    public static void onLoad(Context ctx, boolean ncme) {
         lm = ModManager.get(ctx);
-        if(!FeatureSettings.getInstance().isNCMEnabled) {
-            Logger.get().i("Version Isolation Is Disabled!, ncmodloader won't work!");
+        if(!ncme) {
+            Logger.get().i("Nexcaise ModLoader Is Disabled!, ncmodloader won't work!");
             return;
         }
         clearCache(ctx);

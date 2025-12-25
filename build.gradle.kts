@@ -29,7 +29,6 @@ android {
 }
 
 dependencies {
-    implementation(project(":app"))
     implementation("org.json:json:20240303")
     compileOnly("com.google.android:android:4.1.1.4")
     implementation("org.jetbrains:annotations:24.1.0")
