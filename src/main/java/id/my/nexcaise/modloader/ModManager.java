@@ -269,7 +269,7 @@ private void copyCustomPack(File jarFile) throws IOException {
     }
 
 } catch (JSONException e) {
-    Logger.get().error("Failed to update global_resource_packs.json", e);
+    Logger.get().error("Failed to update global_resource_packs.json: " + e);
     return;
 }
 
