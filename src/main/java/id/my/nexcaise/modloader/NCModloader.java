@@ -4,7 +4,7 @@ import android.content.Context;
 import java.io.*;
 import java.util.*;
 import org.json.*;
-import org.levimc.launcher.settings.FeatureSettings;
+//import org.levimc.launcher.settings.FeatureSettings;
 
 public class NCModloader {
     private static ModManager lm;
