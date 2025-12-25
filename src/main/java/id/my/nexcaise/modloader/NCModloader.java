@@ -11,7 +11,7 @@ public class NCModloader {
 
     public static void onLoad(Context ctx) {
         lm = ModManager.get(ctx);
-        if(!FeatureSettings.getInstance().isVersionIsolationEnabled) {
+        if(!FeatureSettings.getInstance().isNCMEnabled) {
             Logger.get().i("Version Isolation Is Disabled!, ncmodloader won't work!");
             return;
         }
