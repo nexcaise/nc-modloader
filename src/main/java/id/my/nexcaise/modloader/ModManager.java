@@ -10,6 +10,8 @@ import java.util.jar.*;
 import java.util.zip.*;
 import org.json.*;
 import java.text.SimpleDateFormat;
+import android.app.Activity;
+import android.content.Intent;
 
 public class ModManager {
 private final Context context;
@@ -53,16 +55,21 @@ public void loadLib(File jarFile) {
                 return;  
             }  
             Utils.copyFolderFromJar(jarFile.getAbsolutePath(), "lib", nativeDir);  
-        }  
+        }
+        
+        if (context instanceof Activity) {
+          Intent intent = ((Activity) context).getIntent();
+          String libDir = intent.getStringExtra("MINECRAFT_LIBRARY_DIR")
 
-        DexClassLoader dcl = new DexClassLoader(  
+          DexClassLoader dcl = new DexClassLoader(  
             jarFile.getAbsolutePath(),  
             cacheDir.getAbsolutePath(),  
-            null,  
+            libDir,  
             context.getClassLoader()  
-        );  
+          );  
 
-        invokeMain(dcl, mainClass, nativeDir);  
+          invokeMain(dcl, mainClass, nativeDir);
+        }
     } catch (Exception e) {  
         Logger.get().error("Failed to load NCModloder: " + e);  
     }  

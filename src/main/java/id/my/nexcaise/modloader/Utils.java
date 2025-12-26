@@ -19,7 +19,7 @@ public class Utils {
             }
         }
         boolean deleted = f.delete();
-        Logger.get().i("Folder " + (deleted ? "successfully deleted" : "failed to delete") + ": " + f.getAbsolutePath());
+        //Logger.get().i("Folder " + (deleted ? "successfully deleted" : "failed to delete") + ": " + f.getAbsolutePath());
     }
 
     public static Object getPathList(@NotNull ClassLoader loader) throws ReflectiveOperationException {
