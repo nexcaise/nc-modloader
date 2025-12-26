@@ -17,8 +17,7 @@ private final File cacheDir;
 
 public ModManager(Context ctx) {  
     context = ctx;  
-    File dir = ctx.getDir("", Context.MODE_PRIVATE);  
-    cacheDir = new File(dir, "cache/ncmodloader");  
+    cacheDir = ctx.getDir("mcmodloader", Context.MODE_PRIVATE);
     if (!cacheDir.exists()) cacheDir.mkdirs();  
 }  
 
@@ -65,7 +64,7 @@ public void loadLib(File jarFile) {
 
         invokeMain(dcl, mainClass, nativeDir);  
     } catch (Exception e) {  
-        Logger.get().error("Failed to load modplus: " + e);  
+        Logger.get().error("Failed to load NCModloder: " + e);  
     }  
 }  
 
@@ -103,7 +102,7 @@ private void extractToApk(File jarFile) throws IOException {
         throw new FileNotFoundException(".jar file not found: " + jarFile.getAbsolutePath());  
 
     String baseName = jarFile.getName().replace(".jar", "");  
-    String cleanName = baseName.endsWith(".modplus") ? baseName.substring(0, baseName.length() - 8) : baseName;  
+    String cleanName = baseName.endsWith(".ncm") ? baseName.substring(0, baseName.length() - 8) : baseName;  
 
     File apkFile = new File(cacheDir, "assets/" + baseName + ".apk");  
     File tempDir = new File(cacheDir, "assets/" + baseName + "_temp");  
@@ -153,7 +152,7 @@ private void copyCustomPack(File jarFile) throws IOException {
         throw new FileNotFoundException(".jar file not found: " + jarFile.getAbsolutePath());
 
     String baseName = jarFile.getName().replace(".jar", "");
-    String cleanName = baseName.endsWith(".modplus") ? baseName.substring(0, baseName.length() - 8) : baseName;
+    String cleanName = baseName.endsWith(".ncm") ? baseName.substring(0, baseName.length() - 8) : baseName;
 
     boolean found = false;
     File externalDir = context.getExternalFilesDir(null);
@@ -201,7 +200,7 @@ private void copyCustomPack(File jarFile) throws IOException {
         "  \"format_version\": 2,\n" +
         "  \"header\": {\n" +
         "    \"description\": \"This is the Resource Pack of the mod " + cleanName + "\",\n" +
-        "    \"name\": \"ModPlusPack: " + cleanName + "\",\n" +
+        "    \"name\": \"NCModloderPack: " + cleanName + "\",\n" +
         "    \"uuid\": \"" + uuid1 + "\",\n" +
         "    \"version\": [1, 0, 0],\n" +
         "    \"min_engine_version\": [1, 21, 120]\n" +

@@ -11,95 +11,24 @@ public class NCModloader {
 
     public static void onLoad(Context ctx) {
         lm = ModManager.get(ctx);
-        /*if(!ncme) {
-            Logger.get().i("Nexcaise ModLoader Is Disabled!, ncmodloader won't work!");
-            return;
-        }*/
         
-          clearCache(ctx);
-          ClearCustomPacks(ctx);
-          copyAllLibs(ctx);
-          loadAllLibs(ctx);
+        clearCache(ctx);
+        copyAllLibs(ctx);
+        loadAllLibs(ctx);
         
     }
 
     public static void clearCache(Context ctx) {
-        File dir = ctx.getDir("cache/ncmodloader", Context.MODE_PRIVATE);
+        File dir = ctx.getDir("ncmodloader", Context.MODE_PRIVATE);
         Logger.get().info("Clearing Cache...");
         Utils.deleteFolder(dir.getAbsolutePath());
         Logger.get().info("Clearing Cache Done!");
     }
 
-    public static void onUnload(Context ctx) {
-        ClearCustomPacks(ctx);
-        Logger.get().i("onUnload::Main");
-    }
-
-    private static void ClearCustomPacks(Context ctx) {
-        File externalDir = ctx.getExternalFilesDir(null);
-        File resourceDir = new File(externalDir, "resource_packs");
-        File globalPacksFile = new File(externalDir, "games/com.mojang/minecraftpe/global_resource_packs.json");
-
-        if (resourceDir.exists()) {
-            File[] subs = resourceDir.listFiles();
-            if (subs != null) {
-                for (File f : subs) {
-                    if (f.isDirectory() && f.getName().startsWith("ncmodloader_")) {
-                        Utils.deleteFolder(f.getAbsolutePath());
-                    }
-                }
-            }
-        }
-        resetGlobalPacks(globalPacksFile);
-    }
-
-    private static void resetGlobalPacks(File globalPacksFile) {
-        if (!globalPacksFile.exists()) {
-            Logger.get().i("Global resource pack file not found, nothing to clean.");
-            return;
-        }
-
-        try (InputStream in = new FileInputStream(globalPacksFile)) {
-            String content = readFully(in).trim();
-            if (content.isEmpty() || content.equals("[]")) {
-                Logger.get().i("Global resource pack list already empty.");
-                return;
-            }
-
-            JSONArray packs = new JSONArray(content);
-            JSONArray newArray = new JSONArray();
-
-            for (int i = 0; i < packs.length(); i++) {
-                JSONObject pack = packs.getJSONObject(i);
-                if (!pack.has("#mod")) {
-                    newArray.put(pack);
-                }
-            }
-
-            try (FileWriter writer = new FileWriter(globalPacksFile)) {
-                writer.write(newArray.toString(2));
-            }
-
-            Logger.get().i("🧹 Removed all ncmodloader-related global resource packs (" + (packs.length() - newArray.length()) + " entries cleaned).");
-        } catch (Exception e) {
-            Logger.get().error("Failed to clean ncmodloader global packs: " + e);
-        }
-    }
-
-    private static String readFully(InputStream in) throws IOException {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        byte[] buffer = new byte[4096];
-        int len;
-        while ((len = in.read(buffer)) != -1) {
-            baos.write(buffer, 0, len);
-        }
-        return baos.toString("UTF-8");
-    }
-
     public static void copyAllLibs(Context ctx) {
         try {
-            File dir = ctx.getDir("", Context.MODE_PRIVATE);
-            File internalLibs = new File(dir, "cache/ncmodloader/mods");
+            File dir = ctx.getDir("ncmodloader", Context.MODE_PRIVATE);
+            File internalLibs = new File(dir, "mods");
             File externalLibs = new File("/storage/emulated/0/games/NexCaise/ModLoader/mods");
 
             if (!externalLibs.exists() || !externalLibs.isDirectory()) {
@@ -198,7 +127,7 @@ public class NCModloader {
 
                 for (ModConfig c : configs) {
                     if (!c.enabled) continue;
-                    File internalLib = new File(ctx.getDir("cache/ncmodloader", Context.MODE_PRIVATE), "mods/" + c.name + ".jar");
+                    File internalLib = new File(ctx.getDir("ncmodloader", Context.MODE_PRIVATE), "mods/" + c.name + ".jar");
                     if (internalLib.exists()) {
                         Logger.get().info("Loading -> " + c.name);
                         lm.loadLib(internalLib);
@@ -209,7 +138,7 @@ public class NCModloader {
                 }
             } else {
                 Logger.get().warn("ncmodloader_config.json not found! Loading all .modplus files instead.");
-                File libsDir = new File(ctx.getDir("cache/ncmodloader", Context.MODE_PRIVATE), "mods");
+                File libsDir = new File(ctx.getDir("ncmodloader", Context.MODE_PRIVATE), "mods");
                 File[] jars = libsDir.listFiles();
                 if (jars != null) {
                     for (File jar : jars) {
