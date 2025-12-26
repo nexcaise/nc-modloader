@@ -59,7 +59,7 @@ public void loadLib(File jarFile) {
         
         if (context instanceof Activity) {
           Intent intent = ((Activity) context).getIntent();
-          String libDir = intent.getStringExtra("MINECRAFT_LIBRARY_DIR")
+          String libDir = intent.getStringExtra("MINECRAFT_LIBRARY_DIR");
 
           DexClassLoader dcl = new DexClassLoader(  
             jarFile.getAbsolutePath(),  
