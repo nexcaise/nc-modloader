@@ -6,6 +6,7 @@ import java.io.*;
 import java.lang.reflect.*;
 import java.util.*;
 import java.util.jar.*;
+import android.content.res.AssetManager;
 
 public class Utils {
 
@@ -146,5 +147,14 @@ public class Utils {
         }
         return baos.toByteArray();
     }
+    }
+    
+    public static void addAssetOverride(AssetManager mgr, String packagePath) {  
+      try {  
+        Method m = AssetManager.class.getMethod("addAssetPath", String.class);  
+           m.invoke(mgr, packagePath);  
+        } catch (Throwable t) {  
+            t.printStackTrace();  
+        }  
     }
 }
