@@ -5,7 +5,7 @@ import java.io.*;
 import java.util.*;
 import org.json.*;
 import android.app.Activity;
-import org.levimc.launcher.settings.FeatureSettings;
+//import org.levimc.launcher.settings.FeatureSettings;
 
 public class NCModloader {
     private static ModManager lm;
@@ -16,10 +16,10 @@ public class NCModloader {
     }
 
     public static void onLoad(Context ctx) {
-        Activity act = (Activity) context;
+        Activity act = (Activity) ctx;
         activity = act;
         
-        if(!FeatureSettings.getInstance().isNCMEnabled()) return;
+        //if(!FeatureSettings.getInstance().isNCMEnabled()) return;
         lm = ModManager.get(ctx);
         clearCache(ctx);
         copyAllLibs(ctx);
