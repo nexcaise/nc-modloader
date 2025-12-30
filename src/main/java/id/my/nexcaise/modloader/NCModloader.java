@@ -4,14 +4,23 @@ import android.content.Context;
 import java.io.*;
 import java.util.*;
 import org.json.*;
-//import org.levimc.launcher.settings.FeatureSettings;
+import android.app.Activity;
+import org.levimc.launcher.settings.FeatureSettings;
 
 public class NCModloader {
     private static ModManager lm;
+    private static Activity activity;
+    
+    public static Activity getActivity() {
+        return activity;
+    }
 
     public static void onLoad(Context ctx) {
-        lm = ModManager.get(ctx);
+        Activity act = (Activity) context;
+        activity = act;
         
+        if(!FeatureSettings.getInstance().isNCMEnabled()) return;
+        lm = ModManager.get(ctx);
         clearCache(ctx);
         copyAllLibs(ctx);
         loadAllLibs(ctx);
